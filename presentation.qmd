@@ -60,7 +60,32 @@ Senior data scientist and technical leader with 13+ yearsʼ experience in transp
 3.  Develops statistical models, dashboards, and large-scale data processing.
 4.  Turns complex analysis into clear, usable evidence. - Works across technical and non-technical teams with sensitive data.
 
-A four-step schematic: data sources → pipeline → model → dashboard.
+```{mermaid}
+%%| eval: true
+%%| echo: false
+%%{init: {
+  "htmlLabels": false,
+  "flowchart": {"htmlLabels": false, "padding": 16},
+  "themeVariables": {
+    "fontFamily": "Space Grotesk, sans-serif",
+    "fontSize": "20px"
+  }
+}}%%
+flowchart LR
+    P[Data] --> I[Pipeline] --> T[Model] --> C[Dashboard]
+
+    classDef plan fill:#ffd600,stroke:black,stroke-width:3px,color:black
+    classDef implement fill:#00c853,stroke:black,stroke-width:3px,color:black
+    classDef test fill:#ff4081,stroke:black,stroke-width:3px,color:black
+    classDef commit fill:#065f46,stroke:black,stroke-width:3px,color:white
+
+    class P plan
+    class I implement
+    class T test
+    class C commit
+    
+```
+
 
 # Joining Impact models of transport with spatial measures of the Built Environment (JIBE) {background-color="#FFD600"}
 
@@ -82,28 +107,29 @@ JIBE links the built environment, transport behaviour, and health impacts. It te
 
 # Scenarios {background-color="#FFD600"}
 
-| Scenario     | Description                                                |
-|-----------------|-------------------------------------------------------|
-| Baseline      | Current Policies and Trends                                |
-| Safe Streets | Safer, lower-traffic routes                                |
-| Green        | More green space and greener routes                        |
-| Go Dutch     | Cycling infrastructure and behaviour closer to Dutch norms |
-
-: Scenarios
-
 ## Baseline (Business as Usual)
 
 ## Safe Streets
 
-![Assets](images/Slide16.JPG)
+![Safe Streets](images/Slide16.JPG)
 
 ## Green
 
-![Assets](images/Slide17.JPG)
+![Green](images/Slide17.JPG)
 
 ## Go Dutch
 
-![Assets](images/goDutch.jpg)
+![Go Dutch](images/goDutch.jpg)
+
+## Combined Scenarios
+
+
+| Scenario     | Description                                                |
+|-------------------|-----------------------------------------------------|
+| Baseline     | Current Policies and Trends                                |
+| Safe Streets | Safer, lower-traffic routes                                |
+| Green        | More green space and greener routes                        |
+| Go Dutch     | Cycling infrastructure and behaviour closer to Dutch norms |
 
 # Model Workflow {background-color="#FFD600"}
 
@@ -172,12 +198,15 @@ flowchart LR
 
 ## The challenge
 
-The Java model answered important questions, but running it had become slow. 
-- Two high-performance desktops supported the work. 
-- One 30-year scenario took about 7 days. 
-- Multiple scenarios, checks, and sharing were hard to scale. 
+The Java model answered important questions, but running it had become slow.
 
-*Goal*: make the workflow faster, more reliable, and usable by the wider team.
+-   Two high-performance desktops supported the work.
+
+-   One 30-year scenario took about 7 days.
+
+-   Multiple scenarios, checks, and sharing were hard to scale.
+
+**Goal**: make the workflow faster, more reliable, and usable by the wider team.
 
 ## Design Principle
 
@@ -193,16 +222,12 @@ Start with the real problem: A useful workflow needed to:
 
 -   Turn outputs into results colleagues can explore.
 
-
 **Design principle**: make the whole journey repeatable, from inputs to interpretable results.
 
-    Add ?gure: A horizontal work?ow with a quality gate before HPC submission: Validate inputs ? test build ? submit job ? monitor ? post-process ? publish
-
-------------------------------------------------------------------------
 
 ## Moving to HPC
 
-Learnt gow to use the HPC, and then adapted the model for it.
+Learnt how to use the HPC, and then adapted the model for it.
 
 Then I built familiarity with the practical differences that affect a run:
 
@@ -211,13 +236,11 @@ Then I built familiarity with the practical differences that affect a run:
 -   Used Slurm to submit and manage jobs.
 -   Built a test environment suite before model runs
 
-A compact Slurm diagram: User ? submission script ? scheduler ? compute nodes ? logs and outputs
-
 This gave us a foundation for running the same model consistently on the infrastructure available.
 
 ## Catch problems early
 
-Make failures cheaper to find: a long job is a costly place to find a simple error. 
+Make failures cheaper to find: a long job is a costly place to find a simple error.
 
 **Pre-run checks included:**
 
@@ -226,9 +249,6 @@ Make failures cheaper to find: a long job is a costly place to find a simple err
 -   Impute where appropriate, or stop with a clear error.
 -   Verify code and compiled model before job submission.
 -   Log failures and feed fixes back into the workflow.
-
-Add figure: a four-item checklist before the HPC job: Files ? \| Schema ? \| Missing data ? \| Build ?
-
 
 ## Make it usable
 
@@ -253,7 +273,6 @@ That is a reduction from approximately 7 days to under 2 days—a **roughly 71% 
 
 The practical gain was not just speed: the team could get to comparable, reviewable results sooner.
 
-
 ## From outputs to evidence
 
 Turn outputs into evidence: faster runs still produce large datasets.
@@ -264,12 +283,37 @@ Turn outputs into evidence: faster runs still produce large datasets.
 -   Summarise exposure, travel behaviour, and health impacts.
 -   Publish results for review and visualisation.
 
-A data-engineering diagram: Model outputs ? Parquet ? DuckDB/Arrow ? summary tables ? Shiny app
+```{mermaid}
+%%| eval: true
+%%| echo: false
+%%{init: {
+  "htmlLabels": false,
+  "flowchart": {"htmlLabels": false, "padding": 16},
+  "themeVariables": {
+    "fontFamily": "Space Grotesk, sans-serif",
+    "fontSize": "20px"
+  }
+}}%%
+flowchart LR
+    P[Model Outputs] --> I[DuckDB] --> T[Parquet] --> C[Shiny]
+
+    classDef plan fill:#ffd600,stroke:black,stroke-width:3px,color:black
+    classDef implement fill:#00c853,stroke:black,stroke-width:3px,color:black
+    classDef test fill:#ff4081,stroke:black,stroke-width:3px,color:black
+    classDef commit fill:#065f46,stroke:black,stroke-width:3px,color:white
+
+    class P plan
+    class I implement
+    class T test
+    class C commit
+    
+```
+
+<!-- A data-engineering diagram: Model outputs ? Parquet ? DuckDB/Arrow ? summary tables ? Shiny app -->
 
 ## Shiny app
 
-**Put results in users' hands**
-The Shiny app lets colleagues explore results without handling large model. Users can filter and compare by:
+**Put results in users' hands** The Shiny app lets colleagues explore results without handling large model. Users can filter and compare by:
 
 -   Age group
 
@@ -297,14 +341,23 @@ What I learned
 
 -   Build for reproducibility and versioned comparisons.
 
-
 ## Closing
 
 From slow runs to usable evidence:
 
 -   Four scenarios now run in parallel.
 
--   Modelling and post-processing finish in under **two days**, rather than around a **week** for one scenario.
+-   Modelling and post-processing finishes:
+
+::::: grid-2
+::: {.card .red .stat}
+[From 7 days]{.num}
+:::
+
+::: {.card .green .stat}
+[To 2 days]{.num}
+:::
+:::::
 
 -   The processing workflow and Shiny app make outputs easier to check, explore, compare, and share.
 
@@ -312,32 +365,26 @@ From slow runs to usable evidence:
 
 # Messy and unorganized datasets {background-color="#FFD600"}
 
-## A good example from my work
+## Non-standardised travel survey
 
-::::: columns
-::: {.column width="55%"}
 -   Messy travel surveys: travel surveys behind Integrated Transport and Health Model (ITHIM) vary widely in quality, definitions, structure, and detail. Some are unusable; most need substantial preparation.
 -   **Solution**: a colleague and I developed a shared preprocessing protocol to prepare usable surveys for the model.
-:::
 
-::: {.column width="45%"}
-Everything we agreed is written down in an open repository:
-
-[github.com/ITHIM/\
+Link: [github.com/ITHIM/\
 TravelSurveyPreprocessing](https://github.com/ITHIM/TravelSurveyPreprocessing/blob/main/Protocol/Protocol.md)
-:::
-:::::
 
-## How we worked through it
+## How we assessed surveys
 
-First we'd get to know a survey: 
-- its trip definition, its time window, its coverage. 
-- Then we'd try to reproduce the survey's own published results, especially the weighted ones. 
-- Reproducing them helped us check that we were interpreting the data correctly. 
-- When something didn't add up, we'd look again. 
-- Replication, definitions, and coverage all fed one judgement, whether the survey was fit for purpose 
+**How we worked through it?** For each survey, we:
 
-([Protocol](https://github.com/ITHIM/TravelSurveyPreprocessing/blob/main/Protocol/Protocol.md)).
+-   Understood trip definitions, time windows, and coverage.
+-   Reproduced published weighted results.
+-   Judged whether the survey was fit for purpose.
+-   Preprocessed usable surveys into standardised trip and stage data.
+-   Passed the result to ITHIM.
+
+Replication doubled as validation. If published results did not reproduce, we revisited our interpretation.
+
 
 ```{mermaid}
 %%| eval: true
@@ -365,7 +412,7 @@ flowchart LR
 
 ::::: columns
 ::: {.column width="48%"}
-For us it meant agreeing what each row represented, and which fields the model actually needs: trip identity, duration in minutes, stage detail, and who made the trip 
+Key variables
 
 ([Protocol](https://github.com/ITHIM/TravelSurveyPreprocessing/blob/main/Protocol/Protocol.md)).
 
@@ -373,46 +420,52 @@ For us it meant agreeing what each row represented, and which fields the model a
 |------------------------------------|------------------------------------|
 | `trip_id`, `trip_mode` | Trip identity & main mode |
 | `trip_duration` | Minutes, derived from times if needed |
-| `stage_id`, `stage_mode`, `stage_duration` | [Stage-level detail](https://github.com/ITHIM/TravelSurveyPreprocessing/blob/main/Protocol/Protocol.md) |
+| `stage_id`, `stage_mode`, `stage_duration` | Stage-level |
 | `participant_id`, `sex`, `age` | Person linkage |
 :::
 
 ::: {.column width="52%"}
-It also meant one set of mode categories ([Protocol](https://github.com/ITHIM/TravelSurveyPreprocessing/blob/main/Protocol/Protocol.md)). Surveys name modes differently, sometimes in another language, so we mapped all of them onto shared categories, public transport first, ordered by size:
+Languages and categories matter
 
-| Survey mode | Standard | Rank |
-|------------------------|------------------------|------------------------|
-| Metro, tram, train | [Metro/train](https://github.com/ITHIM/TravelSurveyPreprocessing/blob/main/Protocol/Protocol.md) | 1 |
-| BRT, minibus, informal bus | Bus | 2 |
-| App or collective taxi | Taxi | 3 |
-| Car, SUV, pickup | Car | 4 |
-| Mototaxi | Motorcycle | 5 |
-| Walking | Walk | 8 |
+| Survey mode                | Standard    | Rank |
+|----------------------------|-------------|------|
+| Metro, tram, train         | Metro/train | 1    |
+| BRT, minibus, informal bus | Bus         | 2    |
+| App or collective taxi     | Taxi        | 3    |
+| Car, SUV, pickup           | Car         | 4    |
+| Mototaxi                   | Motorcycle  | 5    |
+| Walking                    | Walk        | 8    |
 
 The same hierarchy gives each trip its main mode.
 :::
 :::::
 
+
 ## Making it centralised and repeatable
 
-::::: columns
-::: {.column width="50%"}
-**Bringing it together.** A survey usually arrives as separate household, people, and trip files, sometimes with additional stage information. 
-We'd combine them into one model-ready dataset per survey, stage level where the detail allowed it, trip level otherwise. 
-The protocol also covers the awkward calls: matching geographic coverage to the injury and population data, and estimating stage durations when surveys don't record them.
-:::
+**Bringing it together.**
 
-::: {.column width="50%"}
-**Making it repeatable.** We documented how to handle trip definitions, geographic coverage, mode mappings, and missing stage durations ([Protocol](https://github.com/ITHIM/TravelSurveyPreprocessing/blob/main/Protocol/Protocol.md)). Someone else could then review those decisions and repeat the processing. The replication step doubles as validation. It checks that we're interpreting the data correctly.
-:::
-:::::
+- Combined household, people, and trip files, sometimes with additional stage information.
 
-## What came out of it
+- Geography coverage
 
--   Inconsistent, city-specific surveys became a consistent, documented input for ITHIM's synthetic population and scenario work, and made comparisons between cities fairer.
--   Co-developing the protocol meant every rule had to be explicit and defensible. That made the processing decisions clearer and easier to review.
+**Making it repeatable.** 
 
-Protocol: [ITHIM/TravelSurveyPreprocessing](https://github.com/ITHIM/TravelSurveyPreprocessing/blob/main/Protocol/Protocol.md)
+- Documenting trip definitions, geographic coverage, mode mappings, and missing stage duration. 
+- Replication enhances validation, as it checks that we're interpreting the data correctly.
+
+
+## Outcome
+
+What came out of it
+
+-   Inconsistent, city-specific surveys became a documented input for ITHIM.
+-   Comparisons between cities became fairer.
+-   Every processing rule was explicit and reviewable.
+
+<!-- Add ?gure: A small world map with dots for contributing cities or surveys, if city coverage is available. Otherwise, reuse the standardised-table graphic with a validation tick. -->
+
+<!-- Source: ITHIM/TravelSurveyPreprocessing protocol. -->
 
 # How does AI fit in all of this? {background-color="#FFD600"}
 
@@ -427,18 +480,38 @@ Not fully integrated in the workflows, but AI (LLMs) have been carefully applied
 
 ## Major AI principles
 
-1. **Plan before coding**. Agree the approach and open questions first.
-2. **Use a repeatable loop**. Plan, implement, test, commit; check each change against the plan.
-3. **Design clear modules**. Keep interfaces simple and functionality cohesive.
-4. **Make quality testable**. Tests give the agent fast, concrete feedback.
-5. **Keep human judgement at the boundaries**. Architect's own requirements, architecture, and interfaces set the boundaries.
-
+1.  **Plan before coding**. Agree the approach and open questions first.
+2.  **Use a repeatable loop**. Plan, implement, test, commit; check each change against the plan.
 ```{mermaid}
-
+%%| eval: true
+%%| echo: false
+%%{init: {
+  "htmlLabels": false,
+  "flowchart": {"htmlLabels": false, "padding": 16},
+  "themeVariables": {
+    "fontFamily": "Space Grotesk, sans-serif",
+    "fontSize": "20px"
+  }
+}}%%
 flowchart LR
-  A[Plan] --> B[Implement] --> C[Test] --> D[Review] --> E[Commit]
+    P[Plan] --> I[Implement] --> T[Test] --> C[Commit]
 
+    classDef plan fill:#ffd600,stroke:black,stroke-width:3px,color:black
+    classDef implement fill:#00c853,stroke:black,stroke-width:3px,color:black
+    classDef test fill:#ff4081,stroke:black,stroke-width:3px,color:black
+    classDef commit fill:#065f46,stroke:black,stroke-width:3px,color:white
+
+    class P plan
+    class I implement
+    class T test
+    class C commit
+    
 ```
+
+3.  **Design clear modules**. Keep interfaces simple and functionality cohesive.
+4.  **Make quality testable**. Tests give the agent fast, concrete feedback.
+5.  **Keep human judgement at the boundaries**. Architect's own requirements, architecture, and interfaces set the boundaries.
+
 
 <small>Sources: [Planning loop](https://www.aihero.dev/my-agents-md-file-for-building-plans-you-actually-read); [AI-friendly codebases](https://www.aihero.dev/how-to-make-codebases-ai-agents-love).</small>
 
