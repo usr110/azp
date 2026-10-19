@@ -35,7 +35,6 @@ author-meta: "Ali Abbas"
 date-meta: "2026-10-20"
 lang: "en"
 dir: "ltr"
-image-alt: "Title slide of a presentation about building software products for the agentic age"
 ---
 
 ## Computational Projects {.hero .center background-color="#FFD600"}
@@ -54,20 +53,14 @@ Ali Abbas
 
 # Introduction
 
-Senior Data Scientist at Public Health Modelling group at IMS Epidemiology, Cambridge. I have been at the dept. for over 13 years working on transport and health, with a focus on cycling, walking and public transport.  
+Senior data scientist and technical leader with 13+ yearsʼ experience in transport and health modelling.
 
-## Project overview - JIBE
+1.  Builds production analytics systems, data pipelines, and decision-support tools.
+2.  Works with Python, SQL, Java, and R.
+3.  Develops statistical models, dashboards, and large-scale data processing.
+4.  Turns complex analysis into clear, usable evidence. - Works across technical and non-technical teams with sensitive data.
 
-Purpose and goals
-
-1.  Architecture - model
-2.  Architecture - data
-3.  Challenges
-4.  Data Pipeline
-5.  LLM
-6.  Computational resources
-7.  Analysis
-8.  visualization
+A four-step schematic: data sources → pipeline → model → dashboard.
 
 # Joining Impact models of transport with spatial measures of the Built Environment (JIBE) {background-color="#FFD600"}
 
@@ -76,6 +69,8 @@ Integrated Transport, Built Environment, and Health Model with Scenarios
 ## JIBE MODEL
 
 ![JIBE Model](images/Slide3.JPG)
+
+JIBE links the built environment, transport behaviour, and health impacts. It tests how urban and transport policies may affect physical activity, air-pollution exposure, injuries, and health outcomes in Greater Manchester and Melbourne
 
 ## Demographics Changes
 
@@ -87,6 +82,17 @@ Integrated Transport, Built Environment, and Health Model with Scenarios
 
 # Scenarios {background-color="#FFD600"}
 
+| Scenario     | Description                                                |
+|--------------|------------------------------------------------------------|
+| Baselie      | Current Policies and Trends                                |
+| Safe Streets | Safer, lower-traffic routes                                |
+| Green        | More green space and greener routes                        |
+| Go Dutch     | Cycling infrastructure and behaviour closer to Dutch norms |
+
+: Scenarios
+
+## Baseline (Business as Usual)
+
 ## Safe Streets
 
 ![Assets](images/Slide16.JPG)
@@ -95,56 +101,11 @@ Integrated Transport, Built Environment, and Health Model with Scenarios
 
 ![Assets](images/Slide17.JPG)
 
-## Code/Data
+## Go Dutch
 
-1.  Gitlab - setup files
-2.  Code - GitHub
-3.  Large Files - Sharepoint
+![Assets](images/goDutch.jpg)
 
-## Setup
-
-1.  Moving Files
-2.  HPC - parallelization 7 days to 2 days
-3.  Moving files out
-4.  Coordinating with different scenarios run by different team members
-5.  Processing the output - processing 100s of Millions of records
-6.  Preparing summary statistics - travel behaviour, exposures and health outcomes
-
-## What you'll learn today
-
-::::::: grid-2
-:::: {.card .cream}
-::: card-title
-📋 We assume you know
-:::
-
--   what a large language model (LLM) is
--   an **agent** is an LLM calling tools in a loop
--   CLI, HTTP, and HTML basics
-::::
-
-:::: {.card .yellow .tilt-r}
-::: card-title
-🎯 You will leave with
-:::
-
--   how agents *experience* products
--   products agents **act** on
--   websites agents **read** and cite
--   tools to measure readiness
-::::
-:::::::
-
-::: callout-big
-Agent-friendliness is a new layer **on top of** good engineering, not a replacement for it.
-:::
-
-## AI integration
-
-1.  Code improvements
-2.  Generating tests - logical and structural
-3.  
-4.  
+# Model Workflow {background-color="#FFD600"}
 
 ## What is the model workflow?
 
@@ -168,12 +129,15 @@ flowchart LR
 
     C <-- "uses" --> S[GitHub]:::github
     S <-- "runs on" --> T[High Performance Computing]:::hpc
+    T -->|"analysed using"| U[Java & R]:::analysis
+    U -->|"visualised by"| V[Shiny]:::Visualisation
 
     classDef gitlab fill:lightgray,stroke:black,stroke-width:3px,color:black
     classDef sharepoint fill:lightgray,stroke:black,stroke-width:3px,color:black
     classDef github fill:#00c853,stroke:black,stroke-width:3px,color:black
     classDef hpc fill:#ff4081,stroke:black,stroke-width:3px,color:black
-
+    classDef analysis fill:#4b5563,stroke:black,stroke-width:3px,color:white
+    classDef Visualisation fill:#065f46,stroke:black,stroke-width:3px,color:white
     style Host fill:#ffd600,stroke:black,stroke-width:3px,color:black
     
 ```
@@ -191,6 +155,8 @@ flowchart LR
 **HPC**: architecture specific scripts, tests, submission scripts and log
 :::
 ::::::
+
+# Bottleneck {background-color="#FFD600"}
 
 ## The challenge
 
@@ -339,22 +305,25 @@ I took a slow, difficult-to-repeat modelling process and developed it into a wor
 
 **The broader lesson:** a computational tool succeeds when it improves both the technical process and the day-to-day experience of the people using it.
 
+# Messy and unorganized data sets {background-color="#FFD600"}
+
 ## A good example from my work
 
-::: {.columns}
+::::: columns
 ::: {.column width="55%"}
-- A good example is the travel survey work behind ITHIM, the transport and health impact model, which I lead and maintain.
-- A colleague and I co-developed the preprocessing protocol for those surveys.
-- The problem was that travel surveys vary hugely in quality. Some are simply not usable. Most are messy, with different definitions, structures, and levels of detail.
-- We needed a consistent way to prepare the usable ones for the model.
+-   A good example is the travel survey work behind ITHIM, the transport and health impact model, which I lead and maintain.
+-   A colleague and I co-developed the preprocessing protocol for those surveys.
+-   The problem was that travel surveys vary hugely in quality. Some are simply not usable. Most are messy, with different definitions, structures, and levels of detail.
+-   We needed a consistent way to prepare the usable ones for the model.
 :::
+
 ::: {.column width="45%"}
 Everything we agreed is written down in an open repository:
 
 [github.com/ITHIM/\
 TravelSurveyPreprocessing](https://github.com/ITHIM/TravelSurveyPreprocessing/blob/main/Protocol/Protocol.md)
 :::
-:::
+:::::
 
 ## How we worked through it
 
@@ -384,22 +353,23 @@ flowchart LR
 
 ## What standardisation meant for us
 
-::: {.columns}
+::::: columns
 ::: {.column width="48%"}
 For us it meant agreeing what each row represented, and which fields the model actually needs: trip identity, duration in minutes, stage detail, and who made the trip ([Protocol](https://github.com/ITHIM/TravelSurveyPreprocessing/blob/main/Protocol/Protocol.md)).
 
 | Variable | Role |
-|---|---|
+|------------------------------------|------------------------------------|
 | `trip_id`, `trip_mode` | Trip identity & main mode |
 | `trip_duration` | Minutes, derived from times if needed |
 | `stage_id`, `stage_mode`, `stage_duration` | [Stage-level detail](https://github.com/ITHIM/TravelSurveyPreprocessing/blob/main/Protocol/Protocol.md) |
 | `participant_id`, `sex`, `age` | Person linkage |
 :::
+
 ::: {.column width="52%"}
 It also meant one set of mode categories ([Protocol](https://github.com/ITHIM/TravelSurveyPreprocessing/blob/main/Protocol/Protocol.md)). Surveys name modes differently, sometimes in another language, so we mapped all of them onto shared categories, public transport first, ordered by size:
 
 | Survey mode | Standard | Rank |
-|---|---|---|
+|------------------------|------------------------|------------------------|
 | Metro, tram, train | [Metro/train](https://github.com/ITHIM/TravelSurveyPreprocessing/blob/main/Protocol/Protocol.md) | 1 |
 | BRT, minibus, informal bus | Bus | 2 |
 | App or collective taxi | Taxi | 3 |
@@ -409,24 +379,56 @@ It also meant one set of mode categories ([Protocol](https://github.com/ITHIM/Tr
 
 The same hierarchy gives each trip its main mode.
 :::
-:::
+:::::
 
 ## Making it centralised and repeatable
 
-::: {.columns}
+::::: columns
 ::: {.column width="50%"}
 **Bringing it together.** A survey usually arrives as separate household, people, and trip files, sometimes with additional stage information ([Protocol](https://github.com/ITHIM/TravelSurveyPreprocessing/blob/main/Protocol/Protocol.md)). We'd combine them into one model-ready dataset per survey, stage level where the detail allowed it, trip level otherwise. The protocol also covers the awkward calls: matching geographic coverage to the injury and population data, and estimating stage durations when surveys don't record them.
 :::
+
 ::: {.column width="50%"}
 **Making it repeatable.** We documented how to handle trip definitions, geographic coverage, mode mappings, and missing stage durations ([Protocol](https://github.com/ITHIM/TravelSurveyPreprocessing/blob/main/Protocol/Protocol.md)). Someone else could then review those decisions and repeat the processing. The replication step doubles as validation. It checks that we're interpreting the data correctly.
 :::
-:::
+:::::
 
 ## What came out of it
 
-- Inconsistent, city-specific surveys became a consistent, documented input for ITHIM's synthetic population and scenario work, and made comparisons between cities fairer.
-- Co-developing the protocol meant every rule had to be explicit and defensible. That made the processing decisions clearer and easier to review.
+-   Inconsistent, city-specific surveys became a consistent, documented input for ITHIM's synthetic population and scenario work, and made comparisons between cities fairer.
+-   Co-developing the protocol meant every rule had to be explicit and defensible. That made the processing decisions clearer and easier to review.
 
 **And the AI angle.** We used the output in ITHIM. For future AI work, I'd use the same approach. For example, I'd define `trip_duration` in minutes and check incoming data against that definition.
 
 Protocol: [ITHIM/TravelSurveyPreprocessing](https://github.com/ITHIM/TravelSurveyPreprocessing/blob/main/Protocol/Protocol.md)
+
+# How does AI fit in all of this? {background-color="#FFD600"}
+
+## AI integration
+
+Not fully integrated in the workflows, but AI (LLMs) have been carefully applied. SOme of the examples include:
+
+-   Refactoring code
+-   Streamline data pipelines
+-   Standardizing documentation
+-   Generate documentation for legacy systems
+
+## Major AI principles
+
+1.  **Plan before coding.** Align on the approach and open questions before asking the agent to implement.
+2.  **Use a repeatable delivery loop.** Plan → execute → test → commit; validate each change against the plan.
+3.  **Design clear module boundaries.** Organize functionality into cohesive, deep modules with simple public interfaces.
+4.  **Make quality verifiable.** Use tests to define and check module behavior, giving the agent fast, concrete feedback.
+5.  **Keep human judgment at the boundaries.** Developers own requirements, architecture, and interface decisions; delegate implementation within those boundaries.
+
+<small>Sources: [Planning loop](https://www.aihero.dev/my-agents-md-file-for-building-plans-you-actually-read); [AI-friendly codebases](https://www.aihero.dev/how-to-make-codebases-ai-agents-love).</small>
+
+## Minor AI principles
+
+1.  **Keep root agent instructions short.** Include essentials that apply across tasks; avoid burying the agent in context.
+2.  **Use progressive disclosure.** Link to focused docs or skills so task-specific guidance is loaded only when useful.
+3.  **Scope guidance to the right level.** Put shared rules at the repository root and package-specific guidance in subdirectories.
+4.  **Make instructions actionable.** Remove vague, redundant, or obvious rules that do not guide a concrete decision.
+5.  **Document practical project facts.** Specify items such as the package manager and non-standard build or type-check commands.
+
+<small>Source: [A Complete Guide to AGENTS.md](https://www.aihero.dev/a-complete-guide-to-agents-md).</small>
