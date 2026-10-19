@@ -83,8 +83,8 @@ JIBE links the built environment, transport behaviour, and health impacts. It te
 # Scenarios {background-color="#FFD600"}
 
 | Scenario     | Description                                                |
-|--------------|------------------------------------------------------------|
-| Baselie      | Current Policies and Trends                                |
+|-----------------|-------------------------------------------------------|
+| Baseline      | Current Policies and Trends                                |
 | Safe Streets | Safer, lower-traffic routes                                |
 | Green        | More green space and greener routes                        |
 | Go Dutch     | Cycling infrastructure and behaviour closer to Dutch norms |
@@ -109,7 +109,7 @@ JIBE links the built environment, transport behaviour, and health impacts. It te
 
 ## What is the model workflow?
 
-The **workflow** is a complex structure that brings code/data/processing from various different sources together, and is reproducible.
+The *workflow* brings together data, code, processing, and HPC resources in a repeatable structure.
 
 ```{mermaid}
 %%| eval: true
@@ -144,96 +144,106 @@ flowchart LR
 
 :::::: grid-3
 ::: {.card .yellow}
-**Data**: Data sources and scenario specific configurations
+**Data**: data sources and scenario specific configurations
 :::
 
 ::: {.card .green}
-**Code**: Model code
+**Code**: model implementation
 :::
 
 ::: {.card .pink}
-**HPC**: architecture specific scripts, tests, submission scripts and log
+**HPC**: architecture-specific scripts, tests, submission scripts, and logs
 :::
+
+<!-- ::: {.card .gray} -->
+
+<!-- **Analysis**: Java/R scripts to test, read and provide centralised datasets. -->
+
+<!-- ::: -->
+
+<!-- ::: {.card .forest} -->
+
+<!-- **Shiny**: An interactive application -->
+
+<!-- ::: -->
 ::::::
 
 # Bottleneck {background-color="#FFD600"}
 
 ## The challenge
 
-We had a Java model that could answer important questions—but running it was becoming a bottleneck.
+The Java model answered important questions, but running it had become slow. 
+- Two high-performance desktops supported the work. 
+- One 30-year scenario took about 7 days. 
+- Multiple scenarios, checks, and sharing were hard to scale. 
 
--   We were relying on two high-performance desktop computers.
--   One scenario covering 30 years took around **7 days** to run.
--   Running several scenarios, checking results, and sharing the process was difficult to scale.
+*Goal*: make the workflow faster, more reliable, and usable by the wider team.
 
-**The goal:** make the modelling workflow faster, more reliable, and usable by the wider team.
+## Design Principle
+
+Start with the real problem: A useful workflow needed to:
+
+-   Run on suitable infrastructure.
+
+-   Catch data and code problems early.
+
+-   Make failures easier to understand and recover from.
+
+-   Reduce reliance on one person's knowledge.
+
+-   Turn outputs into results colleagues can explore.
+
+
+**Design principle**: make the whole journey repeatable, from inputs to interpretable results.
+
+    Add ?gure: A horizontal work?ow with a quality gate before HPC submission: Validate inputs ? test build ? submit job ? monitor ? post-process ? publish
 
 ------------------------------------------------------------------------
 
-## Start with the real problem
+## Moving to HPC
 
-I treated this as more than a computing problem.
-
-A useful workflow needed to help the team:
-
--   Run the model on suitable infrastructure.
--   Catch data and code problems before spending time on a job.
--   Understand and recover from failures.
--   Repeat the process without relying on one person’s knowledge.
--   Turn model outputs into results that colleagues could explore and use.
-
-**Design principle:** make the whole journey—from inputs to interpretable results—repeatable.
-
-------------------------------------------------------------------------
-
-## Moving the model to HPC
-
-I began by learning how the high-performance computing (HPC) system was configured and completing the basic training.
+Learnt gow to use the HPC, and then adapted the model for it.
 
 Then I built familiarity with the practical differences that affect a run:
 
--   The available system architectures, such as **Ice Lake** and **Sapphire**.
--   How the Java model should be compiled for the target architecture.
--   How to submit and manage jobs using **Slurm**.
--   How to set up a test environment before moving to production runs.
+-   Reviewed available architectures, including **Ice Lake** and **Sapphire**.
+-   Compiled the Java model for the target architecture.
+-   Used Slurm to submit and manage jobs.
+-   Built a test environment suite before model runs
+
+A compact Slurm diagram: User ? submission script ? scheduler ? compute nodes ? logs and outputs
 
 This gave us a foundation for running the same model consistently on the infrastructure available.
 
-------------------------------------------------------------------------
+## Catch problems early
 
-## Make failures cheaper to find
-
-A long-running job is a costly place to discover a simple problem. I added checks before submission so that common issues could be caught early.
+Make failures cheaper to find: a long job is a costly place to find a simple error. 
 
 **Pre-run checks included:**
 
--   Confirming that the expected data and files were present.
--   Checking data quality, required columns, and missing values.
--   Imputing missing values where appropriate—or stopping with a clear error when not.
--   Verifying the code and compiled model before submitting the job.
+-   Confirming required data/files exist.
+-   Check columns, data quality, and missing values.
+-   Impute where appropriate, or stop with a clear error.
+-   Verify code and compiled model before job submission.
+-   Log failures and feed fixes back into the workflow.
 
-I also added more detailed logging, investigated recurring failures, and folded the fixes into the checks and workflow.
+Add figure: a four-item checklist before the HPC job: Files ? \| Schema ? \| Missing data ? \| Build ?
 
-------------------------------------------------------------------------
 
-## Make it usable by the team
+## Make it usable
 
-The HPC setup did not provide a shared team area or shared drive, so each team member needed to configure their own working environment.
+Make it usable by the team: the HPC system had no shared team area, so each person needed their own setup.
 
-That made documentation and onboarding part of the solution—not an afterthought.
-
--   I wrote step-by-step setup and run instructions.
--   I asked colleagues to try following them and used their feedback to improve clarity.
--   I documented common failure causes and their remedies.
--   I incorporated lessons from real runs into the testing process.
+-   Co-wrote step-by-step setup and run instructions.
+-   Asked colleagues to follow them and revised the guidance.
+-   Documented common failures and their fixes.
+-   Added lessons from real runs to the tests.
 
 **Adoption mattered:** a workflow only helps the team if other people can set it up and use it confidently.
 
-------------------------------------------------------------------------
+## Results
 
-## The impact: run scenarios in parallel
-
-Once the workflow was established, I identified that we could run all **four scenarios in parallel**.
+Run scenarios in parallel
 
 -   Estimated model runtime: around **20 hours**.
 -   Including post-processing and summarising: **less than 2 days**.
@@ -243,78 +253,71 @@ That is a reduction from approximately 7 days to under 2 days—a **roughly 71% 
 
 The practical gain was not just speed: the team could get to comparable, reviewable results sooner.
 
-------------------------------------------------------------------------
 
-## Turn model output into usable evidence
+## From outputs to evidence
 
-Faster runs still leave a lot of data to process. To make comparisons and exploration more practical, I built a post-model workflow.
+Turn outputs into evidence: faster runs still produce large datasets.
 
-1.  Transfer outputs to a central location—in our case, **IFS**.
-2.  Read and process the data efficiently using **Arrow**, **DuckDB**, and **Parquet**.
-3.  Run exploratory checks to sense-check the outputs.
-4.  Generate summaries for outcomes such as exposure, travel behaviour, and health impacts.
-5.  Make the results available for visualisation and review.
+-   Transfer outputs to university managed network drive - IFS
+-   Process data with Arrow, DuckDB, and Parquet.
+-   Run exploratory checks.
+-   Summarise exposure, travel behaviour, and health impacts.
+-   Publish results for review and visualisation.
 
-The aim was to make post-processing reliable enough to repeat across scenarios and model versions.
+A data-engineering diagram: Model outputs ? Parquet ? DuckDB/Arrow ? summary tables ? Shiny app
 
-------------------------------------------------------------------------
+## Shiny app
 
-## Put results in users’ hands
-
-I designed an interactive **Shiny** app so that colleagues could explore the processed results without having to work directly with large model files.
-
-Users can filter or compare results by:
+**Put results in users' hands**
+The Shiny app lets colleagues explore results without handling large model. Users can filter and compare by:
 
 -   Age group
+
 -   Gender
--   Local Authority—across the 10 Greater Manchester authorities
+
+-   Local Authority
+
 -   Index of Multiple Deprivation
 
-They can view results in figures and tables, and download outputs for further use.
+They can view figures and tables, download outputs, revisit previous runs, and compare model versions.
 
-------------------------------------------------------------------------
+## Lessons
 
-## Make comparisons and reuse easier
+What I learned
 
-The app also supports the work around the results—not just viewing them.
+-   Plan the whole workflow, not only the model run.
 
--   Model runs are tracked by date and a description of the run and its outcomes.
--   Previous versions can be revisited and compared.
--   Figures can be downloaded for reports, documentation, and presentations.
+-   Test before submission.
 
-This helps users understand what a result represents and makes it easier to compare runs consistently.
+-   Treat logging as part of the worflow.
 
-------------------------------------------------------------------------
+-   Design for the team's actual environment.
 
-## What I learned
+-   Validate documentation with users.
 
--   **Plan for the whole workflow.** Infrastructure, testing, processing, and presentation all matter.
--   **Test before submitting.** Early checks save time and make failures easier to diagnose.
--   **Treat logging as a feature.** Useful logs turn opaque failures into actionable fixes.
--   **Design for the team’s environment.** The lack of shared HPC storage shaped how people could adopt the workflow.
--   **Validate documentation with users.** Instructions are only effective if colleagues can follow them.
--   **Build for repeatability.** Versioned runs and consistent summaries make comparisons more trustworthy.
+-   Build for reproducibility and versioned comparisons.
 
-------------------------------------------------------------------------
 
 ## Closing
 
-I took a slow, difficult-to-repeat modelling process and developed it into a workflow the team could use more effectively.
+From slow runs to usable evidence:
 
-**The outcome:** four scenarios could be run in parallel, with modelling and post-processing completed in under two days rather than taking around a week for a single scenario. The data-processing workflow and Shiny app then made the outputs easier to check, explore, compare, and share.
+-   Four scenarios now run in parallel.
 
-**The broader lesson:** a computational tool succeeds when it improves both the technical process and the day-to-day experience of the people using it.
+-   Modelling and post-processing finish in under **two days**, rather than around a **week** for one scenario.
 
-# Messy and unorganized data sets {background-color="#FFD600"}
+-   The processing workflow and Shiny app make outputs easier to check, explore, compare, and share.
+
+-   A computational tool succeeds when it improves both the technical process and the experience of the people using it.
+
+# Messy and unorganized datasets {background-color="#FFD600"}
 
 ## A good example from my work
 
 ::::: columns
 ::: {.column width="55%"}
--   A good example is the travel survey work behind ITHIM, the transport and health impact model, which I lead and maintain.
--   A colleague and I co-developed the preprocessing protocol for those surveys.
--   The problem was that travel surveys vary hugely in quality. Some are simply not usable. Most are messy, with different definitions, structures, and levels of detail.
--   We needed a consistent way to prepare the usable ones for the model.
+-   Messy travel surveys: travel surveys behind Integrated Transport and Health Model (ITHIM) vary widely in quality, definitions, structure, and detail. Some are unusable; most need substantial preparation.
+-   **Solution**: a colleague and I developed a shared preprocessing protocol to prepare usable surveys for the model.
 :::
 
 ::: {.column width="45%"}
@@ -327,7 +330,14 @@ TravelSurveyPreprocessing](https://github.com/ITHIM/TravelSurveyPreprocessing/bl
 
 ## How we worked through it
 
-First we'd get to know a survey: its trip definition, its time window, its coverage. Then we'd try to reproduce the survey's own published results, especially the weighted ones. Reproducing them helped us check that we were interpreting the data correctly. When something didn't add up, we'd look again. Replication, definitions, and coverage all fed one judgement, whether the survey was fit for purpose ([Protocol](https://github.com/ITHIM/TravelSurveyPreprocessing/blob/main/Protocol/Protocol.md)).
+First we'd get to know a survey: 
+- its trip definition, its time window, its coverage. 
+- Then we'd try to reproduce the survey's own published results, especially the weighted ones. 
+- Reproducing them helped us check that we were interpreting the data correctly. 
+- When something didn't add up, we'd look again. 
+- Replication, definitions, and coverage all fed one judgement, whether the survey was fit for purpose 
+
+([Protocol](https://github.com/ITHIM/TravelSurveyPreprocessing/blob/main/Protocol/Protocol.md)).
 
 ```{mermaid}
 %%| eval: true
@@ -355,7 +365,9 @@ flowchart LR
 
 ::::: columns
 ::: {.column width="48%"}
-For us it meant agreeing what each row represented, and which fields the model actually needs: trip identity, duration in minutes, stage detail, and who made the trip ([Protocol](https://github.com/ITHIM/TravelSurveyPreprocessing/blob/main/Protocol/Protocol.md)).
+For us it meant agreeing what each row represented, and which fields the model actually needs: trip identity, duration in minutes, stage detail, and who made the trip 
+
+([Protocol](https://github.com/ITHIM/TravelSurveyPreprocessing/blob/main/Protocol/Protocol.md)).
 
 | Variable | Role |
 |------------------------------------|------------------------------------|
@@ -385,7 +397,9 @@ The same hierarchy gives each trip its main mode.
 
 ::::: columns
 ::: {.column width="50%"}
-**Bringing it together.** A survey usually arrives as separate household, people, and trip files, sometimes with additional stage information ([Protocol](https://github.com/ITHIM/TravelSurveyPreprocessing/blob/main/Protocol/Protocol.md)). We'd combine them into one model-ready dataset per survey, stage level where the detail allowed it, trip level otherwise. The protocol also covers the awkward calls: matching geographic coverage to the injury and population data, and estimating stage durations when surveys don't record them.
+**Bringing it together.** A survey usually arrives as separate household, people, and trip files, sometimes with additional stage information. 
+We'd combine them into one model-ready dataset per survey, stage level where the detail allowed it, trip level otherwise. 
+The protocol also covers the awkward calls: matching geographic coverage to the injury and population data, and estimating stage durations when surveys don't record them.
 :::
 
 ::: {.column width="50%"}
@@ -398,28 +412,33 @@ The same hierarchy gives each trip its main mode.
 -   Inconsistent, city-specific surveys became a consistent, documented input for ITHIM's synthetic population and scenario work, and made comparisons between cities fairer.
 -   Co-developing the protocol meant every rule had to be explicit and defensible. That made the processing decisions clearer and easier to review.
 
-**And the AI angle.** We used the output in ITHIM. For future AI work, I'd use the same approach. For example, I'd define `trip_duration` in minutes and check incoming data against that definition.
-
 Protocol: [ITHIM/TravelSurveyPreprocessing](https://github.com/ITHIM/TravelSurveyPreprocessing/blob/main/Protocol/Protocol.md)
 
 # How does AI fit in all of this? {background-color="#FFD600"}
 
 ## AI integration
 
-Not fully integrated in the workflows, but AI (LLMs) have been carefully applied. SOme of the examples include:
+Not fully integrated in the workflows, but AI (LLMs) have been carefully applied throughout the workflows. Some of the examples include:
 
--   Refactoring code
+-   Re-factoring code
 -   Streamline data pipelines
 -   Standardizing documentation
 -   Generate documentation for legacy systems
 
 ## Major AI principles
 
-1.  **Plan before coding.** Align on the approach and open questions before asking the agent to implement.
-2.  **Use a repeatable delivery loop.** Plan → execute → test → commit; validate each change against the plan.
-3.  **Design clear module boundaries.** Organize functionality into cohesive, deep modules with simple public interfaces.
-4.  **Make quality verifiable.** Use tests to define and check module behavior, giving the agent fast, concrete feedback.
-5.  **Keep human judgment at the boundaries.** Developers own requirements, architecture, and interface decisions; delegate implementation within those boundaries.
+1. **Plan before coding**. Agree the approach and open questions first.
+2. **Use a repeatable loop**. Plan, implement, test, commit; check each change against the plan.
+3. **Design clear modules**. Keep interfaces simple and functionality cohesive.
+4. **Make quality testable**. Tests give the agent fast, concrete feedback.
+5. **Keep human judgement at the boundaries**. Architect's own requirements, architecture, and interfaces set the boundaries.
+
+```{mermaid}
+
+flowchart LR
+  A[Plan] --> B[Implement] --> C[Test] --> D[Review] --> E[Commit]
+
+```
 
 <small>Sources: [Planning loop](https://www.aihero.dev/my-agents-md-file-for-building-plans-you-actually-read); [AI-friendly codebases](https://www.aihero.dev/how-to-make-codebases-ai-agents-love).</small>
 
@@ -432,3 +451,5 @@ Not fully integrated in the workflows, but AI (LLMs) have been carefully applied
 5.  **Document practical project facts.** Specify items such as the package manager and non-standard build or type-check commands.
 
 <small>Source: [A Complete Guide to AGENTS.md](https://www.aihero.dev/a-complete-guide-to-agents-md).</small>
+
+# Thank You {background-color="#FFD600"}
