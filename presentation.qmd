@@ -1,24 +1,481 @@
 ---
-title: "Ali Abbas"
-format: revealjs
-editor: visual
+format:
+  revealjs:
+    css: style.css
+    embed-resources: true
+    theme: simple
+    revealjs-plugins:
+      - a11y
+    revealjs-a11y:
+      # 0.2.3's menus introduce ARIA failures; retain our slide-menu handling.
+      slide-menu-a11y: false
+      menu: false
+      # Use the extension's core accessibility fixes without extra UI/shortcuts.
+      font-size-controls: false
+      font-selection: false
+      text-spacing: false
+      transcript: false
+      slide-change-cue: false
+    slide-number: true
+    code-line-numbers: false
+    highlight-style: github
+    preview-links: auto
+    keyboard: true
+    touch: true
+    help: true
+    link-external-newwindow: true
+    mermaid:
+      theme: neutral
+execute:
+  echo: true
+  eval: false
+license: "CC0 1.0 Universal"
+pagetitle: "Computational Tools"
+author-meta: "Ali Abbas"
+date-meta: "2026-10-20"
+lang: "en"
+dir: "ltr"
+image-alt: "Title slide of a presentation about building software products for the agentic age"
 ---
 
-## Quarto
+## Computational Projects {.hero .center background-color="#FFD600"}
 
-Quarto enables you to weave together content and executable code into a finished presentation. To learn more about Quarto presentations see <https://quarto.org/docs/presentations/>.
+::: tag
+Computational Tools, Reproducible Data Pipeline
+:::
 
-## Bullets
+::: hero-sub
+#Your next user [reads text]{.sticker}, [calls tools]{.sticker .amber}, and \#[clicks as a last resort]{.sticker .pink}.
+:::
 
-When you click the **Render** button a document will be generated that includes:
+::: hero-author
+Ali Abbas
+:::
 
--   Content authored with markdown
--   Output from executable code
+# Introduction
 
-## Code
+Senior Data Scientist at Public Health Modelling group at IMS Epidemiology, Cambridge. I have been at the dept. for over 13 years working on transport and health, with a focus on cycling, walking and public transport.  
 
-When you click the **Render** button a presentation will be generated that includes both content and the output of embedded code. You can embed code like this:
+## Project overview - JIBE
 
-```{r}
-1 + 1
+Purpose and goals
+
+1.  Architecture - model
+2.  Architecture - data
+3.  Challenges
+4.  Data Pipeline
+5.  LLM
+6.  Computational resources
+7.  Analysis
+8.  visualization
+
+# Joining Impact models of transport with spatial measures of the Built Environment (JIBE) {background-color="#FFD600"}
+
+Integrated Transport, Built Environment, and Health Model with Scenarios
+
+## JIBE MODEL
+
+![JIBE Model](images/Slide3.JPG)
+
+## Demographics Changes
+
+![Demographics](images/Slide5.JPG)
+
+## Transport Network
+
+![Assets](images/Slide7.JPG)
+
+# Scenarios {background-color="#FFD600"}
+
+## Safe Streets
+
+![Assets](images/Slide16.JPG)
+
+## Green
+
+![Assets](images/Slide17.JPG)
+
+## Code/Data
+
+1.  Gitlab - setup files
+2.  Code - GitHub
+3.  Large Files - Sharepoint
+
+## Setup
+
+1.  Moving Files
+2.  HPC - parallelization 7 days to 2 days
+3.  Moving files out
+4.  Coordinating with different scenarios run by different team members
+5.  Processing the output - processing 100s of Millions of records
+6.  Preparing summary statistics - travel behaviour, exposures and health outcomes
+
+## What you'll learn today
+
+::::::: grid-2
+:::: {.card .cream}
+::: card-title
+📋 We assume you know
+:::
+
+-   what a large language model (LLM) is
+-   an **agent** is an LLM calling tools in a loop
+-   CLI, HTTP, and HTML basics
+::::
+
+:::: {.card .yellow .tilt-r}
+::: card-title
+🎯 You will leave with
+:::
+
+-   how agents *experience* products
+-   products agents **act** on
+-   websites agents **read** and cite
+-   tools to measure readiness
+::::
+:::::::
+
+::: callout-big
+Agent-friendliness is a new layer **on top of** good engineering, not a replacement for it.
+:::
+
+## AI integration
+
+1.  Code improvements
+2.  Generating tests - logical and structural
+3.  
+4.  
+
+## What is the model workflow?
+
+The **workflow** is a complex structure that brings code/data/processing from various different sources together, and is reproducible.
+
+```{mermaid}
+%%| eval: true
+%%| echo: false
+%%{init: {
+  "htmlLabels": false,
+  "flowchart": {"htmlLabels": false, "padding": 16},
+  "themeVariables": {
+    "fontFamily": "Space Grotesk, sans-serif",
+    "fontSize": "20px"
+  }
+}}%%
+flowchart LR
+    subgraph Host["Data"]
+        M[GitLab]:::gitlab <--> C[Sharepoint]:::sharepoint
+    end
+
+    C <-- "uses" --> S[GitHub]:::github
+    S <-- "runs on" --> T[High Performance Computing]:::hpc
+
+    classDef gitlab fill:lightgray,stroke:black,stroke-width:3px,color:black
+    classDef sharepoint fill:lightgray,stroke:black,stroke-width:3px,color:black
+    classDef github fill:#00c853,stroke:black,stroke-width:3px,color:black
+    classDef hpc fill:#ff4081,stroke:black,stroke-width:3px,color:black
+
+    style Host fill:#ffd600,stroke:black,stroke-width:3px,color:black
+    
 ```
+
+:::::: grid-3
+::: {.card .yellow}
+**Data**: Data sources and scenario specific configurations
+:::
+
+::: {.card .green}
+**Code**: Model code
+:::
+
+::: {.card .pink}
+**HPC**: architecture specific scripts, tests, submission scripts and log
+:::
+::::::
+
+<!-- ## Designing the architecture -->
+
+<!-- Now the architecture is set, how do we make sure that the following is happening? -->
+
+<!-- How to run the model? -->
+
+<!-- We were using high end computers - two of them, to run the model. For one scenario, it was taking 7 days to run for 30 years, which became quite unfeasible. So the solution was to move towards high performance computing. Learn how the hpc system is setup and familiarized ourselves with the basic training on how to use it. -->
+
+<!-- Learn different flavours of the architecture and establish workflows to setup testing environment. -->
+
+<!-- What were the lessons learnt? -->
+
+<!-- We needed a paid account. The free account is not flexible, so we bought a paid account with plenty of usage quota. -->
+
+<!-- Learnt how to setup the Java model to do the following: -->
+
+<!-- 1.  Submission script - slurm -->
+<!-- 2.  Compile according to the architecture being used - icelake, sapphire etc -->
+<!-- 3.  Introduce more testing before we submit the job (data, code and compiled code) all worked. For instance if the data is of the right quality, check for the missing columns as well as missing values. Impute when necessary, otherwise raise an alarm to abort the process. -->
+<!-- 4.  Enable indepth logging to capture adn udnerstand how a run has failed -->
+<!-- 5.  Debug and identify common causes of failures, and provide their solutions -->
+<!-- 6.  Integrate the learning in the testing proceces -->
+<!-- 7.  Found out that there is no common or team specific area on HPC (so no shared drive as well), so each of us needs to setup on our own -->
+<!-- 8.  Write detailed instructions on how to setup - and verified with the team if they are easy to follow. -->
+<!-- 9.  Success! -->
+<!-- 10. In order to further improve the process, I identified that we can run all four scenarios in parallel with an estimated run of \~ 20 hours. With the post-model processing and summarizing, it takes less than 2 days. So we have gone from 7 to 2 days duration ((7-2)/7\* 100 = 71.43% improvement). -->
+
+<!-- ## Post-model processing -->
+
+<!-- In order to process all four scenarios at once, we have to do the following: -->
+
+<!-- 1.  Transfer all the model data to a centralised location - IFS in our case -->
+
+<!-- 2.  Write efficient and reliable data processing/workflow that does EDA for sense checking and more importantly for the visualization -->
+
+<!-- 3.  Used Arrow, duckdb and parquet to read, process and generate summaries such as exposure behaviour, travel behaviour and health impacts -->
+
+<!-- 4.  Design an interactive shiny app to read in such data and display results by: -->
+
+<!--     1.  Age groups -->
+<!--     2.  Gender -->
+<!--     3.  Local Authority (10 of them in greater manchester) -->
+<!--     4.  Index of Multiple Deprivation -->
+
+<!-- 5.  Allow users to visualize the data in figures and tables with an option to download. Use the latest shiny libraries to build an interactive app -->
+
+<!-- 6.  Control for versioning of the model run - with dates and prescription of the outcomes, so that it easier to keep track and compare, when necessary, with the previous version in the Shiny app. -->
+
+<!-- 7.  Provide option to download figures for documentation as well as presentations. -->
+
+<!-- <!-- --> -->
+
+<!-- 1.  The required data is there - check for logical and structural issues -->
+<!--     1.  For instnace if the data is of the right quality, check for the missing columns as well as missing values. Impute when necessary, otherwise raise an alarm -->
+<!-- 2.   -->
+
+<!-- Now that the model has run, we need to process it -->
+
+## The challenge
+
+We had a Java model that could answer important questions—but running it was becoming a bottleneck.
+
+-   We were relying on two high-performance desktop computers.
+-   One scenario covering 30 years took around **7 days** to run.
+-   Running several scenarios, checking results, and sharing the process was difficult to scale.
+
+**The goal:** make the modelling workflow faster, more reliable, and usable by the wider team.
+
+------------------------------------------------------------------------
+
+## Start with the real problem
+
+I treated this as more than a computing problem.
+
+A useful workflow needed to help the team:
+
+-   Run the model on suitable infrastructure.
+-   Catch data and code problems before spending time on a job.
+-   Understand and recover from failures.
+-   Repeat the process without relying on one person’s knowledge.
+-   Turn model outputs into results that colleagues could explore and use.
+
+**Design principle:** make the whole journey—from inputs to interpretable results—repeatable.
+
+------------------------------------------------------------------------
+
+## Moving the model to HPC
+
+I began by learning how the high-performance computing (HPC) system was configured and completing the basic training.
+
+Then I built familiarity with the practical differences that affect a run:
+
+-   The available system architectures, such as **Ice Lake** and **Sapphire**.
+-   How the Java model should be compiled for the target architecture.
+-   How to submit and manage jobs using **Slurm**.
+-   How to set up a test environment before moving to production runs.
+
+This gave us a foundation for running the same model consistently on the infrastructure available.
+
+------------------------------------------------------------------------
+
+## Make failures cheaper to find
+
+A long-running job is a costly place to discover a simple problem. I added checks before submission so that common issues could be caught early.
+
+**Pre-run checks included:**
+
+-   Confirming that the expected data and files were present.
+-   Checking data quality, required columns, and missing values.
+-   Imputing missing values where appropriate—or stopping with a clear error when not.
+-   Verifying the code and compiled model before submitting the job.
+
+I also added more detailed logging, investigated recurring failures, and folded the fixes into the checks and workflow.
+
+------------------------------------------------------------------------
+
+## Make it usable by the team
+
+The HPC setup did not provide a shared team area or shared drive, so each team member needed to configure their own working environment.
+
+That made documentation and onboarding part of the solution—not an afterthought.
+
+-   I wrote step-by-step setup and run instructions.
+-   I asked colleagues to try following them and used their feedback to improve clarity.
+-   I documented common failure causes and their remedies.
+-   I incorporated lessons from real runs into the testing process.
+
+**Adoption mattered:** a workflow only helps the team if other people can set it up and use it confidently.
+
+------------------------------------------------------------------------
+
+## The impact: run scenarios in parallel
+
+Once the workflow was established, I identified that we could run all **four scenarios in parallel**.
+
+-   Estimated model runtime: around **20 hours**.
+-   Including post-processing and summarising: **less than 2 days**.
+-   Before: around **7 days for one scenario**.
+
+That is a reduction from approximately 7 days to under 2 days—a **roughly 71% improvement** in elapsed time, using the two-day comparison.
+
+The practical gain was not just speed: the team could get to comparable, reviewable results sooner.
+
+------------------------------------------------------------------------
+
+## Turn model output into usable evidence
+
+Faster runs still leave a lot of data to process. To make comparisons and exploration more practical, I built a post-model workflow.
+
+1.  Transfer outputs to a central location—in our case, **IFS**.
+2.  Read and process the data efficiently using **Arrow**, **DuckDB**, and **Parquet**.
+3.  Run exploratory checks to sense-check the outputs.
+4.  Generate summaries for outcomes such as exposure, travel behaviour, and health impacts.
+5.  Make the results available for visualisation and review.
+
+The aim was to make post-processing reliable enough to repeat across scenarios and model versions.
+
+------------------------------------------------------------------------
+
+## Put results in users’ hands
+
+I designed an interactive **Shiny** app so that colleagues could explore the processed results without having to work directly with large model files.
+
+Users can filter or compare results by:
+
+-   Age group
+-   Gender
+-   Local Authority—across the 10 Greater Manchester authorities
+-   Index of Multiple Deprivation
+
+They can view results in figures and tables, and download outputs for further use.
+
+------------------------------------------------------------------------
+
+## Make comparisons and reuse easier
+
+The app also supports the work around the results—not just viewing them.
+
+-   Model runs are tracked by date and a description of the run and its outcomes.
+-   Previous versions can be revisited and compared.
+-   Figures can be downloaded for reports, documentation, and presentations.
+
+This helps users understand what a result represents and makes it easier to compare runs consistently.
+
+------------------------------------------------------------------------
+
+## What I learned
+
+-   **Plan for the whole workflow.** Infrastructure, testing, processing, and presentation all matter.
+-   **Test before submitting.** Early checks save time and make failures easier to diagnose.
+-   **Treat logging as a feature.** Useful logs turn opaque failures into actionable fixes.
+-   **Design for the team’s environment.** The lack of shared HPC storage shaped how people could adopt the workflow.
+-   **Validate documentation with users.** Instructions are only effective if colleagues can follow them.
+-   **Build for repeatability.** Versioned runs and consistent summaries make comparisons more trustworthy.
+
+------------------------------------------------------------------------
+
+## Closing
+
+I took a slow, difficult-to-repeat modelling process and developed it into a workflow the team could use more effectively.
+
+**The outcome:** four scenarios could be run in parallel, with modelling and post-processing completed in under two days rather than taking around a week for a single scenario. The data-processing workflow and Shiny app then made the outputs easier to check, explore, compare, and share.
+
+**The broader lesson:** a computational tool succeeds when it improves both the technical process and the day-to-day experience of the people using it.
+
+## A good example from my work
+
+::: {.columns}
+::: {.column width="55%"}
+- A good example is the travel survey work behind ITHIM, the transport and health impact model, which I lead and maintain.
+- A colleague and I co-developed the preprocessing protocol for those surveys.
+- The problem was that travel surveys vary hugely in quality. Some are simply not usable. Most are messy, with different definitions, structures, and levels of detail.
+- We needed a consistent way to prepare the usable ones for the model.
+:::
+::: {.column width="45%"}
+Everything we agreed is written down in an open repository:
+
+[github.com/ITHIM/\
+TravelSurveyPreprocessing](https://github.com/ITHIM/TravelSurveyPreprocessing/blob/main/Protocol/Protocol.md)
+:::
+:::
+
+## How we worked through it
+
+First we'd get to know a survey: its trip definition, its time window, its coverage. Then we'd try to reproduce the survey's own published results, especially the weighted ones. Reproducing them helped us check that we were interpreting the data correctly. When something didn't add up, we'd look again. Replication, definitions, and coverage all fed one judgement, whether the survey was fit for purpose ([Protocol](https://github.com/ITHIM/TravelSurveyPreprocessing/blob/main/Protocol/Protocol.md)).
+
+```{mermaid}
+%%{init: {'theme':'neutral', 'themeVariables': {'fontSize':'18px'}, 'flowchart': {'useMaxWidth': true, 'padding': 16}}}%%
+flowchart LR
+    A[Survey intake:<br/>data + report] --> B[Understanding:<br/>trip definition,<br/>time window]
+    B --> C{Fit for<br/>purpose?}
+    C -- no --> X[Not used<br/>for the model]
+    C -- yes --> D[Preprocessing:<br/>coverage, modes,<br/>stages]
+    D --> E[Standardised<br/>stage/trip<br/>dataset]
+    E --> F[ITHIM<br/>model]
+    style X fill:#f8d7da,stroke:#a71d2a
+    style E fill:#d4edda,stroke:#1e7a34
+```
+
+## What standardisation meant for us
+
+::: {.columns}
+::: {.column width="48%"}
+For us it meant agreeing what each row represented, and which fields the model actually needs: trip identity, duration in minutes, stage detail, and who made the trip ([Protocol](https://github.com/ITHIM/TravelSurveyPreprocessing/blob/main/Protocol/Protocol.md)).
+
+| Variable | Role |
+|---|---|
+| `trip_id`, `trip_mode` | Trip identity & main mode |
+| `trip_duration` | Minutes, derived from times if needed |
+| `stage_id`, `stage_mode`, `stage_duration` | [Stage-level detail](https://github.com/ITHIM/TravelSurveyPreprocessing/blob/main/Protocol/Protocol.md) |
+| `participant_id`, `sex`, `age` | Person linkage |
+:::
+::: {.column width="52%"}
+It also meant one set of mode categories ([Protocol](https://github.com/ITHIM/TravelSurveyPreprocessing/blob/main/Protocol/Protocol.md)). Surveys name modes differently, sometimes in another language, so we mapped all of them onto shared categories, public transport first, ordered by size:
+
+| Survey mode | Standard | Rank |
+|---|---|---|
+| Metro, tram, train | [Metro/train](https://github.com/ITHIM/TravelSurveyPreprocessing/blob/main/Protocol/Protocol.md) | 1 |
+| BRT, minibus, informal bus | Bus | 2 |
+| App or collective taxi | Taxi | 3 |
+| Car, SUV, pickup | Car | 4 |
+| Mototaxi | Motorcycle | 5 |
+| Walking | Walk | 8 |
+
+The same hierarchy gives each trip its main mode.
+:::
+:::
+
+## Making it centralised and repeatable
+
+::: {.columns}
+::: {.column width="50%"}
+**Bringing it together.** A survey usually arrives as separate household, people, and trip files, sometimes with additional stage information ([Protocol](https://github.com/ITHIM/TravelSurveyPreprocessing/blob/main/Protocol/Protocol.md)). We'd combine them into one model-ready dataset per survey, stage level where the detail allowed it, trip level otherwise. The protocol also covers the awkward calls: matching geographic coverage to the injury and population data, and estimating stage durations when surveys don't record them.
+:::
+::: {.column width="50%"}
+**Making it repeatable.** We documented how to handle trip definitions, geographic coverage, mode mappings, and missing stage durations ([Protocol](https://github.com/ITHIM/TravelSurveyPreprocessing/blob/main/Protocol/Protocol.md)). Someone else could then review those decisions and repeat the processing. The replication step doubles as validation. It checks that we're interpreting the data correctly.
+:::
+:::
+
+## What came out of it
+
+- Inconsistent, city-specific surveys became a consistent, documented input for ITHIM's synthetic population and scenario work, and made comparisons between cities fairer.
+- Co-developing the protocol meant every rule had to be explicit and defensible. That made the processing decisions clearer and easier to review.
+
+**And the AI angle.** We used the output in ITHIM. For future AI work, I'd use the same approach. For example, I'd define `trip_duration` in minutes and check incoming data against that definition.
+
+Protocol: [ITHIM/TravelSurveyPreprocessing](https://github.com/ITHIM/TravelSurveyPreprocessing/blob/main/Protocol/Protocol.md)
