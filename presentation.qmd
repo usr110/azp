@@ -45,7 +45,7 @@ Computational Tools, Reproducible Data Pipeline
 :::
 
 ::: hero-sub
-#Your next user [reads text]{.sticker}, [calls tools]{.sticker .amber}, and \#[clicks as a last resort]{.sticker .pink}.
+Overview of [two projects]{.sticker}
 :::
 
 ::: hero-author
@@ -191,64 +191,6 @@ flowchart LR
 **HPC**: architecture specific scripts, tests, submission scripts and log
 :::
 ::::::
-
-<!-- ## Designing the architecture -->
-
-<!-- Now the architecture is set, how do we make sure that the following is happening? -->
-
-<!-- How to run the model? -->
-
-<!-- We were using high end computers - two of them, to run the model. For one scenario, it was taking 7 days to run for 30 years, which became quite unfeasible. So the solution was to move towards high performance computing. Learn how the hpc system is setup and familiarized ourselves with the basic training on how to use it. -->
-
-<!-- Learn different flavours of the architecture and establish workflows to setup testing environment. -->
-
-<!-- What were the lessons learnt? -->
-
-<!-- We needed a paid account. The free account is not flexible, so we bought a paid account with plenty of usage quota. -->
-
-<!-- Learnt how to setup the Java model to do the following: -->
-
-<!-- 1.  Submission script - slurm -->
-<!-- 2.  Compile according to the architecture being used - icelake, sapphire etc -->
-<!-- 3.  Introduce more testing before we submit the job (data, code and compiled code) all worked. For instance if the data is of the right quality, check for the missing columns as well as missing values. Impute when necessary, otherwise raise an alarm to abort the process. -->
-<!-- 4.  Enable indepth logging to capture adn udnerstand how a run has failed -->
-<!-- 5.  Debug and identify common causes of failures, and provide their solutions -->
-<!-- 6.  Integrate the learning in the testing proceces -->
-<!-- 7.  Found out that there is no common or team specific area on HPC (so no shared drive as well), so each of us needs to setup on our own -->
-<!-- 8.  Write detailed instructions on how to setup - and verified with the team if they are easy to follow. -->
-<!-- 9.  Success! -->
-<!-- 10. In order to further improve the process, I identified that we can run all four scenarios in parallel with an estimated run of \~ 20 hours. With the post-model processing and summarizing, it takes less than 2 days. So we have gone from 7 to 2 days duration ((7-2)/7\* 100 = 71.43% improvement). -->
-
-<!-- ## Post-model processing -->
-
-<!-- In order to process all four scenarios at once, we have to do the following: -->
-
-<!-- 1.  Transfer all the model data to a centralised location - IFS in our case -->
-
-<!-- 2.  Write efficient and reliable data processing/workflow that does EDA for sense checking and more importantly for the visualization -->
-
-<!-- 3.  Used Arrow, duckdb and parquet to read, process and generate summaries such as exposure behaviour, travel behaviour and health impacts -->
-
-<!-- 4.  Design an interactive shiny app to read in such data and display results by: -->
-
-<!--     1.  Age groups -->
-<!--     2.  Gender -->
-<!--     3.  Local Authority (10 of them in greater manchester) -->
-<!--     4.  Index of Multiple Deprivation -->
-
-<!-- 5.  Allow users to visualize the data in figures and tables with an option to download. Use the latest shiny libraries to build an interactive app -->
-
-<!-- 6.  Control for versioning of the model run - with dates and prescription of the outcomes, so that it easier to keep track and compare, when necessary, with the previous version in the Shiny app. -->
-
-<!-- 7.  Provide option to download figures for documentation as well as presentations. -->
-
-<!-- <!-- --> -->
-
-<!-- 1.  The required data is there - check for logical and structural issues -->
-<!--     1.  For instnace if the data is of the right quality, check for the missing columns as well as missing values. Impute when necessary, otherwise raise an alarm -->
-<!-- 2.   -->
-
-<!-- Now that the model has run, we need to process it -->
 
 ## The challenge
 
@@ -419,7 +361,16 @@ TravelSurveyPreprocessing](https://github.com/ITHIM/TravelSurveyPreprocessing/bl
 First we'd get to know a survey: its trip definition, its time window, its coverage. Then we'd try to reproduce the survey's own published results, especially the weighted ones. Reproducing them helped us check that we were interpreting the data correctly. When something didn't add up, we'd look again. Replication, definitions, and coverage all fed one judgement, whether the survey was fit for purpose ([Protocol](https://github.com/ITHIM/TravelSurveyPreprocessing/blob/main/Protocol/Protocol.md)).
 
 ```{mermaid}
-%%{init: {'theme':'neutral', 'themeVariables': {'fontSize':'18px'}, 'flowchart': {'useMaxWidth': true, 'padding': 16}}}%%
+%%| eval: true
+%%| echo: false
+%%{init: {
+  "htmlLabels": false,
+  "flowchart": {"htmlLabels": false, "padding": 16},
+  "themeVariables": {
+    "fontFamily": "Space Grotesk, sans-serif",
+    "fontSize": "20px"
+  }
+}}%%
 flowchart LR
     A[Survey intake:<br/>data + report] --> B[Understanding:<br/>trip definition,<br/>time window]
     B --> C{Fit for<br/>purpose?}
