@@ -540,6 +540,7 @@ flowchart LR
 - **JIBE:** Four scenarios run in parallel; results are ready in under two days.
 - **ITHIM:** A shared protocol turns varied travel surveys into consistent, reviewable inputs.
 - **Across both projects:** Reproducible workflows make analysis easier to test, compare, and share.
+- **AI:** Use it selectively - plan first, give clear instructions, and keep humans in charge of key decisions.
 
 ### Better tools. Clearer evidence. More usable results.
 
