@@ -55,10 +55,11 @@ Ali Abbas
 
 Senior data scientist and technical leader with 13+ yearsʼ experience in transport and health modelling.
 
-1.  Builds production analytics systems, data pipelines, and decision-support tools.
-2.  Works with Python, SQL, Java, and R.
-3.  Develops statistical models, dashboards, and large-scale data processing.
-4.  Turns complex analysis into clear, usable evidence. - Works across technical and non-technical teams with sensitive data.
+1.  Build production analytics systems, data pipelines, and decision-support tools.
+2.  Work with Python, SQL, Java, and R.
+3.  Develop statistical models, dashboards, and large-scale data processing.
+4.  Turn complex analysis into clear, usable evidence. 
+5.  Work across technical and non-technical teams with sensitive data.
 
 ```{mermaid}
 %%| eval: true
@@ -95,7 +96,7 @@ Integrated Transport, Built Environment, and Health Model with Scenarios
 
 ![JIBE Model](images/Slide3.JPG)
 
-JIBE links the built environment, transport behaviour, and health impacts. It tests how urban and transport policies may affect physical activity, air-pollution exposure, injuries, and health outcomes in Greater Manchester and Melbourne
+JIBE links the built environment, transport behaviour, and health impacts. It tests how urban and transport policies may affect physical activity, air-pollution,  greening, noise, injuries, and health outcomes in Greater Manchester and Melbourne
 
 ## Demographics Changes
 
@@ -106,8 +107,6 @@ JIBE links the built environment, transport behaviour, and health impacts. It te
 ![Assets](images/Slide7.JPG)
 
 # Scenarios {background-color="#FFD600"}
-
-## Baseline (Business as Usual)
 
 ## Safe Streets
 
@@ -132,6 +131,10 @@ JIBE links the built environment, transport behaviour, and health impacts. It te
 | Go Dutch     | Cycling infrastructure and behaviour closer to Dutch norms |
 
 # Model Workflow {background-color="#FFD600"}
+
+## Data Pipeline
+
+![Data Pipeline. Source: https://xkcd.com/2054/](images/data_pipeline_2x.png)
 
 ## What is the model workflow?
 
@@ -469,6 +472,11 @@ What came out of it
 
 # How does AI fit in all of this? {background-color="#FFD600"}
 
+## Machine Learning
+
+![Machine Learning/AI. Source: xkcd.com/1838](images/machine_learning.png)
+
+
 ## AI integration
 
 Not fully integrated in the workflows, but AI (LLMs) have been carefully applied throughout the workflows. Some of the examples include:
@@ -524,5 +532,15 @@ flowchart LR
 5.  **Document practical project facts.** Specify items such as the package manager and non-standard build or type-check commands.
 
 <small>Source: [A Complete Guide to AGENTS.md](https://www.aihero.dev/a-complete-guide-to-agents-md).</small>
+
+# Conclusion {background-color="#FFD600"}
+
+## From data to usable evidence
+
+- **JIBE:** Four scenarios run in parallel; results are ready in under two days.
+- **ITHIM:** A shared protocol turns varied travel surveys into consistent, reviewable inputs.
+- **Across both projects:** Reproducible workflows make analysis easier to test, compare, and share.
+
+### Better tools. Clearer evidence. More usable results.
 
 # Thank You {background-color="#FFD600"}
